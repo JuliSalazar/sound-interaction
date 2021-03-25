@@ -1,0 +1,21 @@
+.sideBar{
+    width: 5%;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    background-color: linear-gradient(180deg, #24195C 0%, #120B34 100%);;
+    transition: .5s;
+    height: 100%;
+    flex-direction: column;
+    overflow: hidden;
+    &__icon{
+        font-size: 1.25rem;
+        color: white;
+    }
+    &__link{
+        position: relative;
+        color: white;
+        margin-bottom: 1.5rem;
+        transition: .3s;
+    }
+}

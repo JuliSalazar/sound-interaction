@@ -1,0 +1,16 @@
+.soundEffectsContainer {
+    justify-content: center;
+    background: linear-gradient(94.51deg, #1E1450 38.89%, #120B34 103.28%);
+border-radius: 2px;
+
+    width: 90%;
+    flex-wrap: wrap;
+    &__props{
+        display: flex;
+        width: 50%;
+    }
+    &__fade{
+        display: flex;
+        width: 50%;
+    }
+  }

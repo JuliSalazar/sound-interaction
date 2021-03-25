@@ -1,53 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 body {
   margin: 0px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   width: 100%;
   height: 100vh;
+  background-color: #09021A;
+  color: white;
+  font-family: 'Roboto', sans-serif;
 }
 
-.App {
+.app {
   width: 100%;
   height: 100vh;
-  background-color: #011017;
-}
-
-*,
-*::before,
-*::after {
-  padding: 0;
-  margin: 0;
-}
-
-body {
-  min-height: 100vh;
-  background-color: #f8f9fa;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+}
+
+.app__content {
+  width: 100%;
+  padding: 3%;
+}
+
+.app__contentPanels {
+  width: 100%;
+  height: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.circleEffectItem {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  font-family: 'Raleway', sans-serif;
-}
-
-.container {
-  padding: 5% 1.5rem;
-  max-width: 800px;
+  padding: 0.5rem;
+  max-width: 115px;
   width: 100%;
-}
-
-#app {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-}
-
-h1 {
-  margin-bottom: 2rem;
-  font-size: 3rem;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 2px;
 }
 
 .slider__legend {
@@ -85,5 +86,88 @@ h1 {
   font-weight: 600;
   font-variant-numeric: tabular-nums lining-nums;
   min-width: 60px;
+}
+
+.sideBar {
+  width: 5%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 0 1rem;
+  background-color: linear-gradient(180deg, #24195C 0%, #120B34 100%);
+  -webkit-transition: .5s;
+  transition: .5s;
+  height: 100%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  overflow: hidden;
+}
+
+.sideBar__icon {
+  font-size: 1.25rem;
+  color: white;
+}
+
+.sideBar__link {
+  position: relative;
+  color: white;
+  margin-bottom: 1.5rem;
+  -webkit-transition: .3s;
+  transition: .3s;
+}
+
+.soundPropsContainer {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background: linear-gradient(94.51deg, #1E1450 38.89%, #120B34 103.28%);
+  border-radius: 2px;
+  width: 90%;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.soundPropsContainer__props {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 50%;
+}
+
+.soundPropsContainer__fade {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 50%;
+}
+
+.soundEffectsContainer {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background: linear-gradient(94.51deg, #1E1450 38.89%, #120B34 103.28%);
+  border-radius: 2px;
+  width: 90%;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.soundEffectsContainer__props {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 50%;
+}
+
+.soundEffectsContainer__fade {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 50%;
 }
 /*# sourceMappingURL=App.css.map */

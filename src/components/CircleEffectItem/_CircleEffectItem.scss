@@ -1,33 +1,12 @@
-
-*, 
-*::before, 
-*::after {
-  padding: 0;
-  margin: 0;
-}
-
-body {
-  min-height: 100vh;
-  background-color: #f8f9fa;
-  display: flex;
+.circleEffectItem {
   justify-content: center;
-  font-family: 'Raleway', sans-serif; 
-}
-
-.container {
-  padding: 5% 1.5rem;
-  max-width: 800px;
+  padding: 0.5rem;
+  max-width: 115px;
   width: 100%;
-}
-
-#app {
   display: flex;
   flex-wrap: wrap;
-}
-
-h1 {
-  margin-bottom: 2rem;
-  font-size: 3rem;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 2px;
 }
 
 .slider__legend {

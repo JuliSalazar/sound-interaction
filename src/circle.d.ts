@@ -1,1 +1,1 @@
-declare module 'react-circle-slider';
+declare module '@fseehawer/react-circular-slider';
