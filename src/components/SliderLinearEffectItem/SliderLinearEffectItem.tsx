@@ -1,25 +1,28 @@
 import React from 'react';
 
 interface SliderLinearEffectItemProps {
-    pan?: boolean;
-    onValueChange: (volume:number) => void;
+    name: string;
+    min: number;
+    max: number;
+    step: number;
+    onValueChange: (value:number) => void;
+    initialValue: number;
 }
 
-export const SliderLinearEffectItem: React.FC<SliderLinearEffectItemProps> = ({ pan, onValueChange}) => {
+export const SliderLinearEffectItem: React.FC<SliderLinearEffectItemProps> = ({name, min, max, step, initialValue, onValueChange}) => {
 
-    const [volumeValue, setVolumeValue] = React.useState(1);
+    const [value, setValue] = React.useState(initialValue);
     const handleValueChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
         var temporalValue = parseFloat(event.target.value);
-       // if (decimal) { temporalValue /= 100; }
-        setVolumeValue(temporalValue);
+        setValue(temporalValue);
         onValueChange(temporalValue);
     }
-   
-    if(pan){}
+
     return (
         <div className="sliderLinearEffectItem">
-            <input type="range" min="0" max="1" step="0.1" value={volumeValue} onChange={handleValueChange}/>
-            <span>{volumeValue}</span>
+            <p>{name}</p>
+            <input type="range" min={min} max={max} step={step} value={value} onChange={handleValueChange}/>
+            <span>{value}</span>
         </div>
     );
 }
