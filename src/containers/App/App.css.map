@@ -6,7 +6,8 @@
         "../../components/CircleEffectItem/_CircleEffectItem.scss",
         "../../components/SideNavBar/_SideNavBar.scss",
         "../SoundPropsContainer/_SoundPropsContainer.scss",
-        "../SoundEffectsContainer/_SoundEffectsContainer.scss"
+        "../SoundEffectsContainer/_SoundEffectsContainer.scss",
+        "../../components/SoundItem/_SoundItem.scss"
     ],
     "names": [],
     "file": "App.css"

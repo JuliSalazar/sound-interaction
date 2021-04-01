@@ -6,6 +6,8 @@ import { SoundPropsContainer } from '../SoundPropsContainer/SoundPropsContainer'
 import './App.css';
 import { BrowserRouter, HashRouter, Link, MemoryRouter, Route } from 'react-router-dom';
 import { GeneralSoundProps } from '../GeneralSoundProps/GeneralSoundProps';
+import { GeneralContext } from '../../utils/GeneralContext';
+
 
 const userSounds = [
     {
@@ -38,10 +40,12 @@ export const App = () => {
     }
 
     return (
+        <GeneralContext.Provider value={{volume, pan}}>
         <main className="app">
+
             <SideNavBar />
             <section className="app__content">
-                <SoundContainer volume={volume} pan={pan}>
+                <SoundContainer pan={pan}>
                 </SoundContainer>
                 <GeneralSoundProps volumeChange={handleVolumeChange} panChange={handlePanChange}/>
                 <article className="app__contentPanels">
@@ -51,5 +55,6 @@ export const App = () => {
             </section>
 
         </main>
+        </GeneralContext.Provider>
     );
 }

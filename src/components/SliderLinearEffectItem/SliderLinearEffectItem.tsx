@@ -12,7 +12,7 @@ export const SliderLinearEffectItem: React.FC<SliderLinearEffectItemProps> = ({ 
         var temporalValue = parseFloat(event.target.value);
        // if (decimal) { temporalValue /= 100; }
         setVolumeValue(temporalValue);
-        onValueChange(volumeValue);
+        onValueChange(temporalValue);
     }
    
     if(pan){}

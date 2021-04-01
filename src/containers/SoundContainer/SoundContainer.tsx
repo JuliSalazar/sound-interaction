@@ -1,13 +1,14 @@
 import React from 'react';
+import { useContext } from 'react';
 import { SoundItem } from '../../components/SoundItem/SoundItem';
+import { GeneralContext } from '../../utils/GeneralContext';
 interface SoundContainerProps {
-    volume:number;
     pan: number;
 }
 
-export const SoundContainer: React.FC<SoundContainerProps> = ({volume, pan}) => {
+export const SoundContainer: React.FC<SoundContainerProps> = ({ pan}) => {
 
-
+   const {volume} = useContext(GeneralContext);
     return (
 
         <section className="SoundContainer">

@@ -1,5 +1,4 @@
 import React from 'react';
-import * as Tone from 'tone';
 import Pizzicato from 'pizzicato';
 
 interface SoundItemProps {
@@ -39,19 +38,23 @@ const handleStop= () => {
 	sound.stop();
 }; 
 
+var stereoPanner = new Pizzicato.Effects.StereoPanner({
+	pan: 0
+});
+sound.addEffect(stereoPanner);
 
-
-export const SoundItem: React.FC<SoundItemProps> = ({volume, pan}) => {
+export const SoundItem: React.FC<SoundItemProps> = ({ volume,pan}) => {
 	//const [value, setValue] = React.useState(1);
 	//setValue(volume);
-	sound.volume = volume;
-	var stereoPanner = new Pizzicato.Effects.StereoPanner({
-		pan: pan
-	});
-	sound.addEffect(stereoPanner);
+	React.useEffect(() => {
+		sound.volume = volume;
+	stereoPanner.pan = pan;
+	}, [volume,pan])
+	
+
 	//console.log(volume);
 	return (
-		<section className="SoundItem">
+		<section className="soundItem">
 			SONIDO?
 			<button onClick={handlePlay}>PLAY</button>
 			<button onClick={handleStop}>STOP</button>
