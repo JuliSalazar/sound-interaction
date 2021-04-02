@@ -9,10 +9,21 @@ export const SoundContainer: React.FC<SoundContainerProps> = () => {
 
    const {volume} = useContext(GeneralContext);
    const {pan} = useContext(GeneralContext);
+   const {feedback} = useContext(GeneralContext);
+   const {gain} = useContext(GeneralContext);
+   const {mix} = useContext(GeneralContext);
+   const {time} = useContext(GeneralContext);
     return (
 
         <section className="SoundContainer">
-            <SoundItem volume={volume} pan={pan}/>
+            <SoundItem 
+            deleted={false}
+            feedback={feedback}
+            gain={gain}
+            mix={mix}
+            time={time}
+            vol={volume} 
+            pan={pan}/>
         </section>
     );
 }

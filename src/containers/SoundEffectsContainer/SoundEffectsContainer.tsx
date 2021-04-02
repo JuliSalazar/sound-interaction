@@ -3,16 +3,31 @@ import { CircleEffectItem } from '../../components/CircleEffectItem/CircleEffect
 import { Link, Route } from 'react-router-dom';
 import { SliderLinearEffectItem } from '../../components/SliderLinearEffectItem/SliderLinearEffectItem';
 interface SoundEffectsContainerProps {
-    valueChange: (value: number) => void;
+    gainChange: (value: number) => void;
+    feedbackChange: (value: number) => void;
+    timeChange: (value: number) => void;
+    mixChange: (value: number) => void;
 }
 
-export const SoundEffectsContainer: React.FC<SoundEffectsContainerProps> = ({ valueChange }) => {
+export const SoundEffectsContainer: React.FC<SoundEffectsContainerProps> = ({ gainChange, feedbackChange, timeChange, mixChange }) => {
 
     const [rateValue, setRateValue] = React.useState(1);
     const [value, setValue] = React.useState(0);
-    const interValueChange = (value: number) => {
+    const interGainChange= (value: number) => {
         setValue(value);
-        valueChange(value);
+        gainChange(value);
+    }
+    const interFeedbackChange= (value: number) => {
+        setValue(value);
+        feedbackChange(value);
+    }
+    const interTimeChange= (value: number) => {
+        setValue(value);
+        timeChange(value);
+    }
+    const interMixChange= (value: number) => {
+        setValue(value);
+        mixChange(value);
     }
 
     return (
@@ -26,10 +41,30 @@ export const SoundEffectsContainer: React.FC<SoundEffectsContainerProps> = ({ va
             </article>
             <Route path="/home/delay" render={() =>
                 <article className="soundEffectsContainer__effectsProps">
-                    <CircleEffectItem name="Playback Rate" value={rateValue} decimal={true} />
-                    <CircleEffectItem name="BPM" value={rateValue} />
-                    <CircleEffectItem name="Pitch Adjust" value={rateValue} decimal={true} />
-                    <CircleEffectItem name="Playback rate:" value={rateValue} />
+                    <SliderLinearEffectItem
+                        name={"Feedback:"}
+                        min={0}
+                        max={1}
+                        step={0.1}
+                        initialValue={0}
+                        onValueChange={interFeedbackChange}
+                    />
+                    <SliderLinearEffectItem
+                        name={"Time:"}
+                        min={0}
+                        max={5}
+                        step={0.1}
+                        initialValue={0}
+                        onValueChange={interTimeChange}
+                    />
+                    <SliderLinearEffectItem
+                        name={"Mix:"}
+                        min={0}
+                        max={1}
+                        step={0.1}
+                        initialValue={0}
+                        onValueChange={interMixChange}
+                    />
                 </article>
             } />
 
@@ -41,7 +76,7 @@ export const SoundEffectsContainer: React.FC<SoundEffectsContainerProps> = ({ va
                         max={1}
                         step={0.1}
                         initialValue={0}
-                        onValueChange={interValueChange}
+                        onValueChange={interGainChange}
                     />
                 </article>
             } />

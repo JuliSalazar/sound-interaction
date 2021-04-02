@@ -8,6 +8,9 @@ export const SideNavBar: React.FC<SideNavBarProps> = () => {
 
     return <nav className="sideBar">
         <Link to="/home" className="sideBar__link">
+            <img src="/sound-interaction/resources/logo.png" alt=""/>
+        </Link>
+        <Link to="/home" className="sideBar__link">
             <i className='bx bx-equalizer sideBar__icon' ></i>
         </Link>
         <Link to="/sounds" className="sideBar__link">

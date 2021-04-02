@@ -1,46 +1,59 @@
 import React from 'react';
 import Pizzicato from 'pizzicato';
+import { getImageSrc } from '../../utils/getImageSrc';
 
 interface SoundItemProps {
-	//id: number;
-	//frequency: number;
-	volume: number;
-	pan: number;
+//	id: number,
+//	name: 'guitar',
+//	url: './public/resources/sounds/guitar.wav',
+	vol: number,
+	pan: number,
+	deleted: false,
+	//Delay
+	feedback: number,
+    time: number,
+    mix: number
+	//Distortion
+	gain: number;
 }
 
+const soundFile = getImageSrc('sounds/guitar.wav');
+var sound = new Pizzicato.Sound({
+	source: 'file',
+	options: { path: soundFile}
+}, function() {
+    console.log('sound file loaded!');
+});
 
-var sound = new Pizzicato.Sound();
-
-
-
-const handlePlay= () => {
+const handlePlay = () => {
 	sound.play();
-}; 
-const handleStop= () => {
+};
+const handleStop = () => {
 	sound.stop();
-}; 
+};
 
 var stereoPanner = new Pizzicato.Effects.StereoPanner({
 	pan: 0
 });
 sound.addEffect(stereoPanner);
+ var delay = new Pizzicato.Effects.Delay();
+sound.addEffect(delay); 
+var distortion = new Pizzicato.Effects.Distortion();
+sound.addEffect(distortion);
 
-/* var delay = new Pizzicato.Effects.Delay({
-    feedback: 0.6,
-    time: 0.4,
-    mix: 0.5
-});
-
-sound.addEffect(delay); */
-
-export const SoundItem: React.FC<SoundItemProps> = ({ volume,pan}) => {
+export const SoundItem: React.FC<SoundItemProps> = ({ vol, pan, feedback, time, mix, gain }) => {
 	//const [value, setValue] = React.useState(1);
 	//setValue(volume);
+	console.log("gain"+ gain);
 	React.useEffect(() => {
-		sound.volume = volume;
+		sound.volume = vol;
 		stereoPanner.pan = pan;
-	}, [volume,pan])
-	
+		delay.feedback = feedback;
+		delay.time = time;
+		delay.mix = mix;
+		distortion.gain = gain;
+	}, [vol, pan, feedback, time, mix, gain])
+
 
 	//console.log(volume);
 	return (

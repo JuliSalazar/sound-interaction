@@ -24,6 +24,11 @@ export const App = () => {
     const [sound, setSounds] = React.useState(userSounds);
     const [volume, setVolume] = React.useState(1);
     const [pan, setPan] = React.useState(0);
+    const [mix, setMix] = React.useState(0);
+    const [feedback, setFeedback] = React.useState(0);
+    const [gain, setGain] = React.useState(0);
+    const [time, setTime] = React.useState(0);
+
 
     const [value, setValue] = React.useState(0);
 
@@ -33,17 +38,25 @@ export const App = () => {
     const handlePanChange = (pan: number) => {
         setPan(pan);
     }
-    const handleValueChange = (value: number) => {
-        setValue(value);
+    const handleGainChange = (gain: number) => {
+        setGain(gain);
     }
-
+    const handleFeedbackChange = (feedback: number) => {
+        setFeedback(feedback);
+    }
+    const handleTimeChange = (time: number) => {
+        setTime(time);
+    }
+    const handleMixChange = (mix: number) => {
+        setMix(mix);
+    }
     return (
 
         <main className="app">
             <HashRouter basename={process.env.PUBLIC_URL}>
                     <SideNavBar />
                     <Route path="/sounds" render={() => <h1>Your sounds</h1>} />
-                <GeneralContext.Provider value={{ volume, pan }}>
+                <GeneralContext.Provider value={{ volume, pan, feedback, mix, gain, time }}>
                     <Route path="/home" render={() => {
                         return <section className="app__content">
                             <SoundContainer>
@@ -52,7 +65,8 @@ export const App = () => {
                             />
                             <article className="app__contentPanels">
                                 <SoundPropsContainer />
-                                <SoundEffectsContainer valueChange={handleValueChange}/>
+                                <SoundEffectsContainer gainChange={handleGainChange}
+                                 feedbackChange={handleFeedbackChange} timeChange={handleTimeChange} mixChange={handleMixChange}/>
                             </article>
                         </section>
                     }} />
