@@ -11,10 +11,10 @@ interface SoundEffectsContainerProps {
 
 export const SoundEffectsContainer: React.FC<SoundEffectsContainerProps> = ({ gainChange, feedbackChange, timeChange, mixChange }) => {
 
-    const [rateValue, setRateValue] = React.useState(1);
+    const [gain, setGain] = React.useState(1);
     const [value, setValue] = React.useState(0);
     const interGainChange= (value: number) => {
-        setValue(value);
+        setGain(value);
         gainChange(value);
     }
     const interFeedbackChange= (value: number) => {
@@ -52,7 +52,7 @@ export const SoundEffectsContainer: React.FC<SoundEffectsContainerProps> = ({ ga
                     <SliderLinearEffectItem
                         name={"Time:"}
                         min={0}
-                        max={5}
+                        max={1}
                         step={0.1}
                         initialValue={0}
                         onValueChange={interTimeChange}

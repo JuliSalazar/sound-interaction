@@ -54,11 +54,26 @@ export const App = () => {
 
         <main className="app">
             <HashRouter basename={process.env.PUBLIC_URL}>
-                    <SideNavBar />
-                    <Route path="/sounds" render={() => <h1>Your sounds</h1>} />
+                <SideNavBar />
+                <Route path="/sounds" render={() => {
+                    return <section className="app__content">
+                        <h1 className="app__title">YOUR SOUNDS</h1>
+                    </section>
+                }} />
+                <Route path="/profile" render={() => {
+                    return <section className="app__content">
+                        <h1 className="app__title">PROFILE</h1>
+                    </section>
+                }} />
+                <Route path="/fav" render={() => {
+                    return <section className="app__content">
+                        <h1 className="app__title">FAVORITES</h1>
+                    </section>
+                }} />
                 <GeneralContext.Provider value={{ volume, pan, feedback, mix, gain, time }}>
                     <Route path="/home" render={() => {
                         return <section className="app__content">
+                            <h1 className="app__title">INTERACTION</h1>
                             <SoundContainer>
                             </SoundContainer>
                             <GeneralSoundProps volumeChange={handleVolumeChange} panChange={handlePanChange}
@@ -66,7 +81,7 @@ export const App = () => {
                             <article className="app__contentPanels">
                                 <SoundPropsContainer />
                                 <SoundEffectsContainer gainChange={handleGainChange}
-                                 feedbackChange={handleFeedbackChange} timeChange={handleTimeChange} mixChange={handleMixChange}/>
+                                    feedbackChange={handleFeedbackChange} timeChange={handleTimeChange} mixChange={handleMixChange} />
                             </article>
                         </section>
                     }} />

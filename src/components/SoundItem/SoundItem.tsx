@@ -1,6 +1,7 @@
 import React from 'react';
 import Pizzicato from 'pizzicato';
 import { getImageSrc } from '../../utils/getImageSrc';
+import * as Tone from 'tone';
 
 interface SoundItemProps {
 //	id: number,
@@ -16,42 +17,54 @@ interface SoundItemProps {
 	//Distortion
 	gain: number;
 }
-
+//var sound = new Pizzicato
 const soundFile = getImageSrc('sounds/guitar.wav');
-var sound = new Pizzicato.Sound({
-	source: 'file',
-	options: { path: soundFile}
-}, function() {
-    console.log('sound file loaded!');
-});
+var panner = new Tone.Panner(0).toDestination();
+var volume = new Tone.Volume(1).toDestination();
+var dist = new Tone.Distortion(0.8).toDestination();
+var sound = new Tone.Player(soundFile).toDestination();
+var feedbackDelay = new Tone.FeedbackDelay(0.125, 0.5).toDestination();
+sound.connect(panner);
+sound.connect(volume);
+//sound.connect(dist);
+sound.connect(feedbackDelay);
+//sound.chain(panner,volume,dist, Tone.Destination);
 
 const handlePlay = () => {
-	sound.play();
+	Tone.loaded().then(()=>{
+		sound.start();
+	});
 };
 const handleStop = () => {
-	sound.stop();
+	Tone.loaded().then(()=>{
+		sound.stop();
+	});
 };
 
-var stereoPanner = new Pizzicato.Effects.StereoPanner({
+/* var stereoPanner = new Pizzicato.Effects.StereoPanner({
 	pan: 0
 });
 sound.addEffect(stereoPanner);
  var delay = new Pizzicato.Effects.Delay();
 sound.addEffect(delay); 
 var distortion = new Pizzicato.Effects.Distortion();
-sound.addEffect(distortion);
+sound.addEffect(distortion); */
 
 export const SoundItem: React.FC<SoundItemProps> = ({ vol, pan, feedback, time, mix, gain }) => {
 	//const [value, setValue] = React.useState(1);
 	//setValue(volume);
-	console.log("gain"+ gain);
 	React.useEffect(() => {
-		sound.volume = vol;
-		stereoPanner.pan = pan;
-		delay.feedback = feedback;
+		
+	
+		panner.pan.value = pan;
+		sound.volume.value = vol;
+		dist.distortion = gain;
+		feedbackDelay.delayTime.value = time;
+		if(vol == -15){ sound.mute = true}
+		/* delay.feedback = feedback;
 		delay.time = time;
 		delay.mix = mix;
-		distortion.gain = gain;
+		distortion.gain = gain; */
 	}, [vol, pan, feedback, time, mix, gain])
 
 
