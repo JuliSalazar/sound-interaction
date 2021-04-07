@@ -25,8 +25,8 @@ export const GeneralSoundProps: React.FC<GeneralSoundPropsProps> = ({volumeChang
         <div className="generalSoundProps">
             <SliderLinearEffectItem 
             name={""}
-            min={-15}
-            max={20}
+            min={0}
+            max={1}
             step={0.1}
             initialValue={volume}
             onValueChange={interVolumeChange}
