@@ -17,14 +17,15 @@
     &__link{
         position: relative;
         color: white;
-        margin-bottom: 1.5rem;
+        margin-bottom: 2rem;
         transition: .3s;
         text-decoration: none;
         display: flex;
         align-items: center;
+        
         &--logo{
             align-self: center;
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
         }
 
     }

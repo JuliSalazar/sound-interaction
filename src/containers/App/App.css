@@ -26,7 +26,7 @@ body {
   margin: 0px;
   font-weight: 900;
   font-size: 48px;
-  color: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.2);
 }
 
 .app__content {
@@ -127,7 +127,7 @@ body {
 .sideBar__link {
   position: relative;
   color: white;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   -webkit-transition: .3s;
   transition: .3s;
   text-decoration: none;
@@ -143,7 +143,7 @@ body {
   -ms-flex-item-align: center;
       -ms-grid-row-align: center;
       align-self: center;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
 }
 
 .soundPropsContainer {

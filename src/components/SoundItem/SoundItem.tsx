@@ -3,8 +3,8 @@ import Pizzicato from 'pizzicato';
 import { getImageSrc } from '../../utils/getImageSrc';
 import * as Tone from 'tone';
 import p5 from 'p5';
-/* import p5Sound from 'p5/lib/addons/p5.sound';
-require('p5/lib/addons/p5.sound'); */
+//import 'p5/lib/addons/p5.sound.js';
+
 
 interface SoundItemProps {
 //	id: number,
@@ -47,9 +47,10 @@ const handleStop = () => {
 	/* Tone.loaded().then(()=>{
 		sound.stop();
 	}); */
-	//sound.stop();
+	sound.stop();
 };
 
+//PIZZICATO
 var stereoPanner = new Pizzicato.Effects.StereoPanner({
 	pan: 0
 });
@@ -73,12 +74,15 @@ export const SoundItem: React.FC<SoundItemProps> = ({ vol, pan, feedback, time, 
 	const variablesRef = React.useRef({
 		vol : 1,
 	});
+
 	React.useEffect(() => {
 		
 		const app = new p5 ((sketch) => {
 			sketch.setup = () => {
 				sketch.createCanvas(200,200);
-				var mysound = sketch.loadSound(soundFile);
+				//var mysound = new p5.SoundFile(soundFile);
+				
+				//mysound.play();
 			}
 			//let vol = vol;
 			sketch.draw = () => {

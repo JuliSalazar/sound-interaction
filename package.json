@@ -1,7 +1,7 @@
 {
   "name": "sound-interaction",
   "version": "0.1.0",
-  "homepage": "http://JuliSalazar.github.io/sound-interaction/home",
+  "homepage": "https://julisalazar.github.io/sound-interaction/home",
   "private": true,
   "dependencies": {
     "@fseehawer/react-circular-slider": "^2.3.5",

@@ -17,7 +17,7 @@ export const SoundEffectsContainer: React.FC<SoundEffectsContainerProps> = ({ ga
         setGain(value);
         gainChange(value);
     }
-    const interFeedbackChange= (value: number) => {
+    const interFeedbackChange = (value: number) => {
         setValue(value);
         feedbackChange(value);
     }

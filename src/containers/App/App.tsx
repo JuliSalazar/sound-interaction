@@ -54,22 +54,10 @@ export const App = () => {
 
         <main className="app">
             <HashRouter basename={process.env.PUBLIC_URL}>
-                <SideNavBar />
-                <Route path="/sounds" render={() => {
-                    return <section className="app__content">
-                        <h1 className="app__title">YOUR SOUNDS</h1>
-                    </section>
+            <Route path="/" render={() => {
+                    return <SideNavBar />
                 }} />
-                <Route path="/profile" render={() => {
-                    return <section className="app__content">
-                        <h1 className="app__title">PROFILE</h1>
-                    </section>
-                }} />
-                <Route path="/fav" render={() => {
-                    return <section className="app__content">
-                        <h1 className="app__title">FAVORITES</h1>
-                    </section>
-                }} />
+                
                 <GeneralContext.Provider value={{ volume, pan, feedback, mix, gain, time }}>
                     <Route path="/home" render={() => {
                         return <section className="app__content">
@@ -86,6 +74,23 @@ export const App = () => {
                         </section>
                     }} />
                 </GeneralContext.Provider>
+                <Route path="/profile" render={() => {
+                    return <section className="app__content">
+                        <h1 className="app__title">PROFILE</h1>
+                    </section>
+                }} />
+                <Route path="/sounds" render={() => {
+                    return <section className="app__content">
+                        <h1 className="app__title">YOUR SOUNDS</h1>
+                    </section>
+                }} />
+                <Route path="/fav" render={() => {
+                    return <section className="app__content">
+                        <h1 className="app__title">FAVORITES</h1>
+                    </section>
+                }} />
+            
+                
             </HashRouter>
         </main>
     );
