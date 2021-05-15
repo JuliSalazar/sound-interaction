@@ -1,10 +1,23 @@
 import {createContext} from 'react';
+import { getImageSrc } from './getImageSrc';
+
+export type SoundItemType = {
+    id: number,
+    name: string,
+    soundUrl: string,
+    vol: number,
+    pan: number,
+    //Delnumber;
+    feedback: number,
+    time: number,
+    mix: number,
+    //Distortion
+    gain: number,
+    sound: any,
+}
 
 export const GeneralContext = createContext({
-    volume:1,
-    pan: 0,
-    feedback: 0,
-    mix: 0,
-    gain: 0,
-    time: 0
+    predeterminateSounds: [] as SoundItemType[],
+    onSoundItemClick: (id: number) => {},
+    onSoundItemAdd: (id: number) => {},
 });

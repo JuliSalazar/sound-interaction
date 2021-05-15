@@ -1,7 +1,7 @@
 {
   "name": "sound-interaction",
   "version": "0.1.0",
-  "homepage": "https://julisalazar.github.io/sound-interaction/home",
+  "homepage": "https://julisalazar.github.io/sound-interaction/",
   "private": true,
   "dependencies": {
     "@fseehawer/react-circular-slider": "^2.3.5",
@@ -12,12 +12,14 @@
     "@types/node": "^14.14.35",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.2",
+    "firebase": "^8.6.1",
     "node-sass": "^5.0.0",
     "p5": "^1.3.1",
     "pizzicato": "^0.6.4",
     "react": "^17.0.1",
     "react-circle-slider": "^1.6.2",
     "react-dom": "^17.0.1",
+    "react-p5": "^1.3.19",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",

@@ -46,57 +46,54 @@ body {
           flex-direction: row;
 }
 
-.circleEffectItem {
+.soundPropsContainer {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  padding: 0.5rem;
-  max-width: 115px;
-  width: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  background: linear-gradient(94.51deg, #1e1450 38.89%, #120b34 103.28%);
+  border-radius: 2px;
+  width: 90%;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 2px;
 }
 
-.slider__legend {
-  padding: 1rem 3rem 0 0;
-  list-style: none;
-}
-
-.slider__legend h2 {
-  margin-bottom: 1rem;
-}
-
-.slider__legend li {
+.soundPropsContainer__props {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  margin-bottom: 1rem;
+  width: 50%;
 }
 
-.slider__legend li span {
-  display: inline-block;
+.soundPropsContainer__fade {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 50%;
 }
 
-.slider__legend li span:first-child {
-  height: 20px;
-  width: 20px;
-  margin-bottom: -2px;
+.soundEffectsContainer {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background: linear-gradient(94.51deg, #1e1450 38.89%, #120b34 103.28%);
+  border-radius: 2px;
+  width: 90%;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
 }
 
-.slider__legend li span:nth-child(2) {
-  margin: 0 0.5rem;
+.soundEffectsContainer__props {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 50%;
 }
 
-.slider__legend li span:last-child {
-  font-size: 1.25rem;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums lining-nums;
-  min-width: 60px;
+.soundEffectsContainer__fade {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 50%;
 }
 
 .sideBar {
@@ -146,36 +143,11 @@ body {
   margin-bottom: 3rem;
 }
 
-.soundPropsContainer {
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  background: linear-gradient(94.51deg, #1E1450 38.89%, #120B34 103.28%);
-  border-radius: 2px;
-  width: 90%;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-}
-
-.soundPropsContainer__props {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  width: 50%;
-}
-
-.soundPropsContainer__fade {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  width: 50%;
-}
-
 .soundEffectsContainer {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  background: linear-gradient(94.51deg, #1E1450 38.89%, #120B34 103.28%);
+  background: linear-gradient(94.51deg, #1e1450 38.89%, #120b34 103.28%);
   border-radius: 2px;
   width: 90%;
   -ms-flex-wrap: wrap;

@@ -20,7 +20,7 @@ body {
     height: 100vh;
     display: flex;
     &__title {
-        margin:0px;
+        margin: 0px;
         font-weight: 900;
         font-size: 48px;
         color: rgba(255, 255, 255, 0.2);
@@ -37,8 +37,39 @@ body {
     }
 }
 
-@import "../../components/CircleEffectItem/CircleEffectItem";
+.soundPropsContainer {
+    justify-content: center;
+    background: linear-gradient(94.51deg, #1e1450 38.89%, #120b34 103.28%);
+    border-radius: 2px;
+
+    width: 90%;
+    flex-wrap: wrap;
+    &__props {
+        display: flex;
+        width: 50%;
+    }
+    &__fade {
+        display: flex;
+        width: 50%;
+    }
+}
+.soundEffectsContainer {
+    justify-content: center;
+    background: linear-gradient(94.51deg, #1e1450 38.89%, #120b34 103.28%);
+    border-radius: 2px;
+
+    width: 90%;
+    flex-wrap: wrap;
+    &__props {
+        display: flex;
+        width: 50%;
+    }
+    &__fade {
+        display: flex;
+        width: 50%;
+    }
+}
+
 @import "../../components/SideNavBar/SideNavBar";
-@import "../SoundPropsContainer/SoundPropsContainer";
 @import "../SoundEffectsContainer/SoundEffectsContainer";
 @import "../../components/SoundItem/SoundItem";
