@@ -142,29 +142,4 @@ body {
       align-self: center;
   margin-bottom: 3rem;
 }
-
-.soundEffectsContainer {
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  background: linear-gradient(94.51deg, #1e1450 38.89%, #120b34 103.28%);
-  border-radius: 2px;
-  width: 90%;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-}
-
-.soundEffectsContainer__props {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  width: 50%;
-}
-
-.soundEffectsContainer__fade {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  width: 50%;
-}
 /*# sourceMappingURL=App.css.map */

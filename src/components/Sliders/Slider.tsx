@@ -6,7 +6,7 @@ export interface SliderProps {
     variant?: 'primary' | 'secondary' | 'circle';
     min: number;
     max: number;
-    step: number;
+    step: number | string;
     onValueChange: (value: number) => void;
     value: number;
 }

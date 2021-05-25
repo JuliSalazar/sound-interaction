@@ -6,7 +6,6 @@ interface SoundItemProps {
 	id: number,
 	name: string,
 	soundUrl: string,
-	/* app: any, */
 	/* vol: number,
 	pan: number,
 	deleted: false,
@@ -22,12 +21,13 @@ interface SoundItemProps {
 export const SoundItem: React.FC<SoundItemProps> = ({ name, id, /* app, vol, pan, feedback, time, mix, gain */ } ) => {
 
 	const { onSoundItemClick } = useContext(GeneralContext);
+	const { onSoundItemAdd } = useContext(GeneralContext);
 
 	const handleClick = () => {
 		onSoundItemClick(id);
 	}
 	const handleAdd = () => {
-		onSoundItemClick(id);
+		onSoundItemAdd(id);
 	}
 
 	return (

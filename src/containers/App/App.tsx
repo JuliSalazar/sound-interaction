@@ -62,7 +62,8 @@ export const App = () => {
     const variablesRef = React.useRef({
         playSound: (id: number) => { },
         addSound: (id: number) => { },
-        changeVolume: (id: number, sound: SoundItemType) => { }
+        changeVolume: (id: number, sound: SoundItemType) => { },
+        getHandleChange: (key: keyof SoundItemType, id: number, sound: SoundItemType) => { },
     });
     React.useEffect(() => {
         const app = new p5((sketch: any) => {
@@ -70,9 +71,10 @@ export const App = () => {
                 id: number;
                 sound: any;
             }[] = [];  */
+            let selected: SoundItemType | null | undefined;
             var sounds: SoundItemType[] = [];
             sketch.preload = () => {
-                preSounds.forEach(({ name, soundUrl, id, vol, pan, time,mix, gain, feedback }) => {
+                preSounds.forEach(({ name, soundUrl, id, vol, pan, time, mix, gain, feedback }) => {
                     sounds.push({
                         id,
                         name,
@@ -88,41 +90,53 @@ export const App = () => {
                         sound: sketch.loadSound(soundUrl),
                     });
                 });
+
             }
             sketch.setup = () => {
+                sketch.userStartAudio();
+
             }
             variablesRef.current.playSound = (id: number) => {
                 const sound = sounds.find((s) => s.id === id);
-                sketch.userStartAudio();
                 sound?.sound.play();
             }
             variablesRef.current.addSound = (id: number) => {
                 const soundToAdd = sounds.find((s) => s.id === id);
-        
+                selected = soundToAdd;
             }
-            variablesRef.current.changeVolume = (id: number, soundItem: SoundItemType) => {
-                const sound = sounds.find((s) => s.id === id);
-                sound?.sound.setVolume(soundItem.vol);
+            variablesRef.current.getHandleChange = (key: keyof SoundItemType, id: number, soundItem: SoundItemType) => {
+                selected = soundItem;
+             /*    if(key=='vol'){selected.sound.setVolume(sound.vol);}
+                if(key=='pan'){selected.sound.pan(sound.pan);} */
+                console.log(selected, key=="vol");
+            }
+            /* variablesRef.current.changeVolume = (id: number, soundItem: SoundItemType) => {
                 sketch.userStartAudio();
-                console.log("ejecutada");
-            }
+                if (selected) { selected.sound.setVolume(soundItem.vol) }
+
+                console.log("ejecutada", soundItem.vol);
+            } */
         }, ref.current!);
     }, []);
 
-    
+
     const [sound, setSound] = React.useState<SoundItemType>(preSoundsList[0]);
 
     const handleSoundItemClick = (id: number) => {
         variablesRef.current.playSound(id);
     }
     const handleSoundItemAdd = (id: number) => {
-        variablesRef.current.playSound(id);
+        variablesRef.current.addSound(id);
     }
 
-    const getHandleChange = (key: keyof SoundItemType, id:number) => {
+    const getHandleChange = (key: keyof SoundItemType, id: number) => {
         return (value: any) => {
             setSound((prev) => ({
                 ...prev,
+                [key]: value
+            }));
+            variablesRef.current.getHandleChange(key, id, ({
+                ...sound,
                 [key]: value
             }));
         }
@@ -159,8 +173,16 @@ export const App = () => {
                                     max={1}
                                     min={0}
                                     onValueChange={getHandleChange('vol', sound.id)}
-                                    step={0.1}
+                                    step={"0.1"}
                                     value={sound.vol}></RangeSlider>
+
+                                <RangeSlider label={'Pan'}
+                                    max={1}
+                                    min={-1}
+                                    onValueChange={getHandleChange('pan', sound.id)}
+                                    step={0.1}
+                                    value={sound.pan}></RangeSlider>
+
                             </div>
 
                             }
