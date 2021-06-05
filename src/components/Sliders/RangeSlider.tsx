@@ -3,7 +3,7 @@ import { Slider, SliderProps } from './Slider';
 
 type RangeSliderProps = SliderProps;
 
-export const RangeSlider: React.FC<RangeSliderProps> = ({label, min, max, step, value, onValueChange}) => {
+export const RangeSlider: React.FC<RangeSliderProps> = ({label, min, max, value, onValueChange}) => {
 
 
     return ( <Slider
@@ -11,7 +11,6 @@ export const RangeSlider: React.FC<RangeSliderProps> = ({label, min, max, step, 
     max={max}
     min={min}
     onValueChange={onValueChange}
-    step={step}
     value={value}>
     </Slider>
     );

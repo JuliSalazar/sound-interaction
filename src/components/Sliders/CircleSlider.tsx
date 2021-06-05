@@ -10,7 +10,6 @@ interface CircleEffectItemProps {
 export const CircleEffectItem: React.FC<CircleEffectItemProps> = ({ name, value, decimal }) => {
 
     const handleChange = (value: any) => {
-        console.log(`Changed value ${value}`);
         var temporalValue = value;
         if (decimal) { temporalValue /= 100; }
         setRateValue(temporalValue);

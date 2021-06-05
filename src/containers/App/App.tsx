@@ -17,8 +17,8 @@ const preSounds: SoundItemType[] = [
         vol: 1,
         pan: 0,
         //Delay
-        feedback: 0,
-        time: 0,
+        feedback: 0.0,
+        time: 0.0,
         mix: 0,
         //Distortion
         gain: 0,
@@ -31,7 +31,7 @@ const preSounds: SoundItemType[] = [
         vol: 1,
         pan: 0,
         //Delay
-        feedback: 0,
+        feedback: 0.0,
         time: 0,
         mix: 0,
         //Distortion
@@ -67,12 +67,10 @@ export const App = () => {
     });
     React.useEffect(() => {
         const app = new p5((sketch: any) => {
-            /* const sounds: {
-                id: number;
-                sound: any;
-            }[] = [];  */
+
             let selected: SoundItemType | null | undefined;
             var sounds: SoundItemType[] = [];
+
             sketch.preload = () => {
                 preSounds.forEach(({ name, soundUrl, id, vol, pan, time, mix, gain, feedback }) => {
                     sounds.push({
@@ -92,9 +90,10 @@ export const App = () => {
                 });
 
             }
+            let delay: any;
             sketch.setup = () => {
                 sketch.userStartAudio();
-
+                delay = new p5.Delay();
             }
             variablesRef.current.playSound = (id: number) => {
                 const sound = sounds.find((s) => s.id === id);
@@ -105,10 +104,26 @@ export const App = () => {
                 selected = soundToAdd;
             }
             variablesRef.current.getHandleChange = (key: keyof SoundItemType, id: number, soundItem: SoundItemType) => {
-                selected = soundItem;
-             /*    if(key=='vol'){selected.sound.setVolume(sound.vol);}
-                if(key=='pan'){selected.sound.pan(sound.pan);} */
-                console.log(selected, key=="vol");
+                if (selected) {
+                    let mySound = selected.sound;
+                    switch (key) {
+                        case 'vol':
+                            mySound.setVolume(soundItem.vol);
+                            break;
+                        case 'pan':
+                            mySound.pan(soundItem.pan);
+                            break;
+                        case 'feedback' :
+                        case 'time' :
+                            case 'mix' :
+                            delay.process(mySound, soundItem.time, soundItem.feedback, soundItem.mix);
+                            break;
+                        case 'gain':
+                            mySound.rate(soundItem.gain);
+                            break;
+                    }
+                }
+                console.log(soundItem);
             }
             /* variablesRef.current.changeVolume = (id: number, soundItem: SoundItemType) => {
                 sketch.userStartAudio();
@@ -142,7 +157,8 @@ export const App = () => {
         }
     }
 
-    const [generalPropsTab, setGeneralPropsTab] = React.useState<'volume' | 'pan' | 'other'>('volume');
+    const [generalPropsTab, setGeneralPropsTab] = React.useState<'volume' | 'pan'>('volume');
+    const [effectTab, setEffectTab] = React.useState<'delay' | 'reverb'>('delay');
     return (
 
         <main className="app">
@@ -155,6 +171,7 @@ export const App = () => {
                     <Route path="/home" render={() => {
                         return <section className="app__content">
                             <h1 className="app__title">INTERACTION</h1>
+                            <button onClick={() => setGeneralPropsTab("pan")}>Save your sound!</button>
                             <div style={{ display: 'none' }} ref={ref}></div>
 
                             <section className="app__soundContainer">
@@ -168,48 +185,74 @@ export const App = () => {
                                     />;
                                 })}
                             </section>
-                            {generalPropsTab === 'volume' && <div className="app__generalSoundProps">
+                            <button onClick={() => setGeneralPropsTab("volume")}>Volume</button>
+                            <button onClick={() => setGeneralPropsTab("pan")}>Pan</button>
+                            {generalPropsTab === 'volume' &&
                                 <RangeSlider label={'Volume'}
                                     max={1}
                                     min={0}
                                     onValueChange={getHandleChange('vol', sound.id)}
-                                    step={"0.1"}
-                                    value={sound.vol}></RangeSlider>
 
+                                    value={sound.vol}></RangeSlider>
+                            }
+                            {generalPropsTab === 'pan' &&
                                 <RangeSlider label={'Pan'}
                                     max={1}
                                     min={-1}
                                     onValueChange={getHandleChange('pan', sound.id)}
-                                    step={0.1}
+
                                     value={sound.pan}></RangeSlider>
-
-                            </div>
-
                             }
 
                             <section className="app__contentPanels">
                                 <section className="soundPropsContainer">
                                     <article className="soundPropsContainer__fade"></article>
-                                    <article className="soundPropsContainer__props">
-                                        {/* <CircleEffectItem name="Playback Rate" value={} decimal={true} />
+                                    {/* <CircleEffectItem name="Playback Rate" value={} decimal={true} />
                                         <CircleEffectItem name="BPM" value={} />
                                         <CircleEffectItem name="Pitch Adjust" value={} decimal={true} />
                                         <CircleEffectItem name="Playback rate:" value={} /> */}
+                                    <article className="soundPropsContainer__props">
+                                        {/* <CircleEffectItem name="Pitch Adjust" value={sound.gain} decimal={true} /> */}
+                                        <RangeSlider label={'Playback Rate'}
+                                            max={2}
+                                            min={0}
+                                            onValueChange={getHandleChange('gain', sound.id)}
+
+                                            value={sound.gain}></RangeSlider>
                                     </article>
                                 </section>
                                 <section className="soundEffectsContainer">
 
                                     <article className="soundEffectsContainer__effectsButtons">
-                                        <Link to="/home/delay">Delay</Link>
+                                        {/* <Link to="/home/delay">Delay</Link>
                                         <Link to="/home/eq">EQ</Link>
-                                        <Link to="/home/distortion">Distortion</Link>
+                                        <Link to="/home/distortion">Distortion</Link> */}
+                                        <button onClick={() => setEffectTab("delay")}>Delay</button>
+                                        <button onClick={() => setEffectTab("reverb")}>Reverb</button>
+
                                     </article>
-                                    <Route path="/home/delay" render={() =>
-                                        <article className="soundEffectsContainer__effectsProps">
 
+                                    {effectTab === 'delay' && <article className="soundEffectsContainer__effectsProps">
+                                        <RangeSlider label={'Delay Time'}
+                                            max={1}
+                                            min={0}
+                                            onValueChange={getHandleChange('time', sound.id)}
 
-                                        </article>
-                                    } />
+                                            value={sound.time}></RangeSlider>
+                                        <RangeSlider label={'Feedback'}
+                                            max={1.0}
+                                            min={0.0}
+                                            onValueChange={getHandleChange('feedback', sound.id)}
+
+                                            value={sound.feedback}></RangeSlider>
+                                        <RangeSlider label={'Filter Frequency'}
+                                            max={1.0}
+                                            min={0.0}
+                                            onValueChange={getHandleChange('mix', sound.id)}
+
+                                            value={sound.mix}></RangeSlider>
+                                    </article>
+                                    }
 
                                     <Route path="/home/distortion" render={() =>
                                         <article className="soundEffectsContainer__effectsProps">

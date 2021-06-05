@@ -6,19 +6,18 @@ export interface SliderProps {
     variant?: 'primary' | 'secondary' | 'circle';
     min: number;
     max: number;
-    step: number | string;
     onValueChange: (value: number) => void;
     value: number;
 }
 
-export const Slider: React.FC<SliderProps> = ({variant = 'primary', children, label, min, max, step, value, onValueChange} ) => {
+export const Slider: React.FC<SliderProps> = ({variant = 'primary', children, label, min, max, value, onValueChange} ) => {
     const handleValueChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-        onValueChange(parseInt(event.target.value));
+        onValueChange(parseFloat(event.target.value));
     }
 
     return <div className="slider">
         <label>{label}</label>
-        <input type="range" min={min} max={max} step={step} value={value} onChange={handleValueChange} />
+        <input type="range" min={min} max={max} step={0.1} value={value} onChange={handleValueChange} />
         {children}
         <span>{value}</span>
     </div>
