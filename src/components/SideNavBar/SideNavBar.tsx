@@ -2,17 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { getImageSrc } from '../../utils/getImageSrc';
 interface SideNavBarProps {
-
+    notification: boolean;
 }
 
-export const SideNavBar: React.FC<SideNavBarProps> = () => {
+export const SideNavBar: React.FC<SideNavBarProps> = ({notification}) => {
     const logoSrc = getImageSrc('/logo.png');
     const homeSrc = getImageSrc('/home.png');
     const profileSrc = getImageSrc('/profile.png');
     const folderSrc = getImageSrc('/folder.png');
     const heartSrc = getImageSrc('/heart.png');
     return <nav className="sideBar">
-        <Link to="/home" className="sideBar__link--logo">
+        <Link to="/home" className="sideBar__link sideBar__link--logo">
             <img src={logoSrc} alt="" />
         </Link>
         <Link to="/home" className="sideBar__link">
@@ -23,7 +23,7 @@ export const SideNavBar: React.FC<SideNavBarProps> = () => {
             <img src={profileSrc} alt="" />
             <span className="sideBar__name">Profile</span>
         </Link>
-        <Link to="/sounds" className="sideBar__link">
+        <Link to="/sounds" className={`sideBar__link${notification===true? ' sideBar__link--notification':''}`}>
             <img src={folderSrc} alt="" />
             <span className="sideBar__name">Your sounds</span>
         </Link>

@@ -36,12 +36,14 @@ body {
         height: 38vh;
     }
     &__preSounds {
+        position: relative;
         display: inline-flex;
         flex-direction: column;
         justify-content: space-between;
         background: linear-gradient(94.51deg, #1e1450 38.89%, #120b34 103.28%);
         border-radius: 2px;
         padding: 10px;
+        margin-top: 20px;
         height: 180px;
     }
     &__soundContainer {
@@ -51,6 +53,13 @@ body {
     }
     &__soundsContainer{
         display: inline-flex;
+    }
+    &__p{
+        position: absolute;
+        top: -40px;
+        left: 0px;
+        font-size: .8em;
+        opacity: .7;
     }
 }
 .h3 {
@@ -133,8 +142,8 @@ button:hover{
     border-radius: 2px;
     color: white;
     border: 0px;
+    width: 180px;
     padding: 8px 15px;
-    
 }
 
 

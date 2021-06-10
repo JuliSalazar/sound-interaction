@@ -1,7 +1,7 @@
 import React from 'react';
 import { SideNavBar } from '../../components/SideNavBar/SideNavBar';
 import './App.css';
-import { HashRouter, Link, Redirect, Route } from 'react-router-dom';
+import { HashRouter, Redirect, Route } from 'react-router-dom';
 import { GeneralContext, SoundItemType } from '../../utils/GeneralContext';
 import { getImageSrc } from '../../utils/getImageSrc';
 import { SoundItem } from '../../components/SoundItem/SoundItem';
@@ -74,8 +74,9 @@ const preSounds: SoundItemType[] = [
 ];
 declare var p5: any;
 export const App = () => {
-    const ref = React.useRef(null as HTMLDivElement | null);
     const [preSoundsList, setPreSoundsList] = React.useState(preSounds);
+    const [sound, setSound] = React.useState<SoundItemType>(preSoundsList[0]);
+    const ref = React.useRef(null as HTMLDivElement | null);
     const variablesRef = React.useRef({
         playSound: (id: number) => { },
         addSound: (id: number) => { },
@@ -85,17 +86,25 @@ export const App = () => {
         stopSound: (id: number) => { },
     });
 
-    const [usersSounds, setUsersSounds] = React.useState<SoundItemType[]>([]);
 
+    const [usersSounds, setUsersSounds] = React.useState<SoundItemType[]>([]);
+    const [noti, setNoti] = React.useState<boolean>(false);
+   
     React.useEffect(() => {
+        window.onload = function() {
+            var context = new AudioContext();
+            context.suspend();
+          }
 
         const app = new p5((sketch: any) => {
 
             let selected: SoundItemType | null | undefined;
             var sounds: SoundItemType[] = [];
             var savedSounds: SoundItemType[] = [];
+            
 
             sketch.preload = () => {
+                sketch.getAudioContext().suspend();
                 preSounds.forEach(({ name, soundUrl, id, vol, pan, rate, time, mix, reverbTime, decayRate, dryWet, distortion, feedback }) => {
                     sounds.push({
                         id,
@@ -123,13 +132,13 @@ export const App = () => {
             let reverb: any;
             let distortion: any;
             sketch.setup = () => {
-                sketch.userStartAudio();
                 delay = new p5.Delay();
                 reverb = new p5.Reverb();
                 distortion = new p5.Distortion();
             }
 
             variablesRef.current.playSound = (id: number) => {
+                sketch.userStartAudio();
                 const sound = sounds.find((s) => s.id === id);
                 sound?.sound.play();
                 const userSound = savedSounds.find((s) => s.id === id);
@@ -183,34 +192,44 @@ export const App = () => {
                             break;
 
                     }
-                }
-                variablesRef.current.saveSound = (id: number) => {
-                    if (mySound && selected) {
-                        savedSounds.push({
-                            ...selected,
-                            id: 100 + savedSounds.length,
-                            name: "Your Sound",
-                            sound: mySound
-                        });
-                        setUsersSounds(savedSounds);
+                    setSound((prev) => ({
+                        ...prev,
+                        sound: mySound
+                    }));
+                    variablesRef.current.saveSound = (id: number) => {
+                        if (mySound && selected) {
+                            savedSounds.push({
+                                ...selected,
+                                id: 100 + savedSounds.length,
+                                name: "Your Sound",
+                                sound: mySound
+                            });
+                            setUsersSounds(savedSounds);
+                            setNoti(true);
+                        }
                     }
                 }
             }
+            
         }, ref.current!);
     }, []);
 
-
-    const [sound, setSound] = React.useState<SoundItemType>(preSoundsList[0]);
 
     const handleSoundItemClick = (id: number) => {
         variablesRef.current.playSound(id);
     }
     const handleSoundItemAdd = (id: number) => {
         variablesRef.current.addSound(id);
+        let mySound = preSoundsList.find((s) => s.id === id)
+        if (mySound) setSound(mySound);
     }
+   
     const handleSaveSound = (id: number) => {
         variablesRef.current.saveSound(id);
+        /* var btn = document.querySelector('.saveButton');
+        if (btn) btn.innerHTML = 'Saved!'; */
     }
+
     const handleSoundItemStop = (id: number) => {
         variablesRef.current.stopSound(id);
     }
@@ -234,18 +253,19 @@ export const App = () => {
         <main className="app">
             <HashRouter basename={process.env.PUBLIC_URL}>
                 <Route path="/" render={() => {
-                    return <SideNavBar />
+                    return <SideNavBar notification={noti} />
                 }} />
 
                 <GeneralContext.Provider value={{ predeterminateSounds: preSoundsList, onSoundItemClick: handleSoundItemClick, onSoundItemStop: handleSoundItemStop, onSoundItemAdd: handleSoundItemAdd }}>
                     <Route path="/home" render={() => {
                         return <section className="app__content">
                             <h1 className="app__title">INTERACTION</h1>
-                            <button className="saveButton" onClick={() => handleSaveSound(sound.id)}>Save your sound!</button>
+                            <button className={`saveButton${noti===true? ' saveButton--saved':''}`} onClick={() => handleSaveSound(sound.id)}>Save your sound!</button>
                             <div style={{ display: 'none' }} ref={ref}></div>
 
                             <section className="app__soundContainer">
                                 <div className="app__preSounds">
+                                    <p className="app__p"> Add a sound to start with "+" button</p>
                                     {preSoundsList.map(({ name, soundUrl, id }, index) => {
                                         return <SoundItem
                                             key={index}
@@ -255,7 +275,7 @@ export const App = () => {
                                         />;
                                     })}
                                 </div>
-                                <Visualization />
+                                <Visualization selectedSound={sound}/>
                             </section>
                             <button className={`btn ${generalPropsTab === 'volume' ? 'btn--selected' : ''}`} onClick={() => setGeneralPropsTab("volume")}>Volume</button>
                             <button className={`btn ${generalPropsTab === 'pan' ? 'btn--selected' : ''}`} onClick={() => setGeneralPropsTab("pan")}>Pan</button>
@@ -363,7 +383,6 @@ export const App = () => {
                     <Route path="/sounds" render={() => {
                         return <section className="app__content">
                             <h1 className="app__title">YOUR SOUNDS</h1>
-                            <div style={{ display: 'none' }} ref={ref}></div>
                             <section className="app__soundsContainer">
                                 {usersSounds.map(({ name, soundUrl, id }, index) => {
                                     return <YourSoundItem
@@ -373,8 +392,10 @@ export const App = () => {
                                         id={id}
                                     />;
                                 })}
+                                {setNoti(false)}
+                             
                             </section>
-                            <Visualization></Visualization>
+                            <Visualization selectedSound={sound}></Visualization>
                         </section>
                     }} />
                 </GeneralContext.Provider>

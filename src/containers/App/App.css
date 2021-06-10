@@ -46,6 +46,7 @@ body {
 }
 
 .app__preSounds {
+  position: relative;
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
@@ -59,6 +60,7 @@ body {
   background: linear-gradient(94.51deg, #1e1450 38.89%, #120b34 103.28%);
   border-radius: 2px;
   padding: 10px;
+  margin-top: 20px;
   height: 180px;
 }
 
@@ -76,6 +78,14 @@ body {
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
+}
+
+.app__p {
+  position: absolute;
+  top: -40px;
+  left: 0px;
+  font-size: .8em;
+  opacity: .7;
 }
 
 .h3--contentPanels {
@@ -180,6 +190,7 @@ button:hover {
   border-radius: 2px;
   color: white;
   border: 0px;
+  width: 180px;
   padding: 8px 15px;
 }
 
@@ -189,10 +200,10 @@ button:hover {
   display: -ms-flexbox;
   display: flex;
   padding: 1rem;
-  background: -webkit-gradient(linear, left top, left bottom, from(#24195C), to(#120B34));
-  background: linear-gradient(180deg, #24195C 0%, #120B34 100%);
-  -webkit-transition: .5s;
-  transition: .5s;
+  background: -webkit-gradient(linear, left top, left bottom, from(#24195c), to(#120b34));
+  background: linear-gradient(180deg, #24195c 0%, #120b34 100%);
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
@@ -211,8 +222,8 @@ button:hover {
   position: relative;
   color: white;
   margin-bottom: 2rem;
-  -webkit-transition: .3s;
-  transition: .3s;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
   text-decoration: none;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -227,6 +238,17 @@ button:hover {
       -ms-grid-row-align: center;
       align-self: center;
   margin-bottom: 3rem;
+}
+
+.sideBar__link--notification::before {
+  content: "";
+  height: 8px;
+  width: 8px;
+  position: absolute;
+  background-color: white;
+  border-radius: 50%;
+  top: -4px;
+  right: 0;
 }
 
 .soundItem {

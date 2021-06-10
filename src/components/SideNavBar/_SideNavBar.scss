@@ -1,31 +1,40 @@
-.sideBar{
-    width:12%;
+.sideBar {
+    width: 12%;
     display: flex;
     //align-items: center;
     padding: 1rem;
-    background: linear-gradient(180deg, #24195C 0%, #120B34 100%);
-    transition: .5s;
+    background: linear-gradient(180deg, #24195c 0%, #120b34 100%);
+    transition: 0.5s;
     flex-direction: column;
     overflow: hidden;
-    &__name{
+    &__name {
         font-size: 14px;
         font-weight: 300;
         text-transform: uppercase;
         margin-left: 1rem;
     }
-    &__link{
+    &__link {
         position: relative;
         color: white;
         margin-bottom: 2rem;
-        transition: .3s;
+        transition: 0.3s;
         text-decoration: none;
         display: flex;
         align-items: center;
-        
-        &--logo{
+
+        &--logo {
             align-self: center;
             margin-bottom: 3rem;
         }
-
+        &--notification::before {
+            content: "";
+            height: 8px;
+            width: 8px;
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            top: -4px;
+            right: 0;
+        }
     }
 }
