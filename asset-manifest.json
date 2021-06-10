@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/sound-interaction/static/css/main.3ad4c68f.chunk.css",
-    "main.js": "/sound-interaction/static/js/main.190ffd72.chunk.js",
-    "main.js.map": "/sound-interaction/static/js/main.190ffd72.chunk.js.map",
+    "main.css": "/sound-interaction/static/css/main.b48a5270.chunk.css",
+    "main.js": "/sound-interaction/static/js/main.a8844393.chunk.js",
+    "main.js.map": "/sound-interaction/static/js/main.a8844393.chunk.js.map",
     "runtime-main.js": "/sound-interaction/static/js/runtime-main.050b8542.js",
     "runtime-main.js.map": "/sound-interaction/static/js/runtime-main.050b8542.js.map",
-    "static/js/2.1c286107.chunk.js": "/sound-interaction/static/js/2.1c286107.chunk.js",
-    "static/js/2.1c286107.chunk.js.map": "/sound-interaction/static/js/2.1c286107.chunk.js.map",
+    "static/js/2.37bbc48c.chunk.js": "/sound-interaction/static/js/2.37bbc48c.chunk.js",
+    "static/js/2.37bbc48c.chunk.js.map": "/sound-interaction/static/js/2.37bbc48c.chunk.js.map",
     "index.html": "/sound-interaction/index.html",
-    "static/css/main.3ad4c68f.chunk.css.map": "/sound-interaction/static/css/main.3ad4c68f.chunk.css.map",
-    "static/js/2.1c286107.chunk.js.LICENSE.txt": "/sound-interaction/static/js/2.1c286107.chunk.js.LICENSE.txt",
+    "static/css/main.b48a5270.chunk.css.map": "/sound-interaction/static/css/main.b48a5270.chunk.css.map",
+    "static/js/2.37bbc48c.chunk.js.LICENSE.txt": "/sound-interaction/static/js/2.37bbc48c.chunk.js.LICENSE.txt",
     "static/media/star.2d365d06.svg": "/sound-interaction/static/media/star.2d365d06.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.050b8542.js",
-    "static/js/2.1c286107.chunk.js",
-    "static/css/main.3ad4c68f.chunk.css",
-    "static/js/main.190ffd72.chunk.js"
+    "static/js/2.37bbc48c.chunk.js",
+    "static/css/main.b48a5270.chunk.css",
+    "static/js/main.a8844393.chunk.js"
   ]
 }
