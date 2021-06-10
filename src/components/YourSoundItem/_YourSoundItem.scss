@@ -1,0 +1,30 @@
+.yourSoundItem {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 180px;
+    width: 130px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    margin: 20px;
+    //filter: drop-shadow(0px 0px 5px rgba(255, 255, 255, 0.25));
+    border-radius: 2px;
+   /*  position: relative;
+    z-index: 222; */
+    &__name {
+        margin: 3px 0 -5px 0 ;
+        font-size: 1em;
+    }
+    &__button {
+        border: none;
+    }
+}
+.yourSoundItem::before{
+    content: '';
+    width: 150px;
+    height: 200px;
+    position: absolute;
+    z-index: -2;
+    background: linear-gradient(94.51deg, #1e1450 38.89%, #120b34 103.28%);
+}
+

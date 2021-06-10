@@ -3,29 +3,25 @@ import CircularSlider from '@fseehawer/react-circular-slider';
 import { ReactComponent as EmojiIcon } from '../../icons/star.svg';
 
 interface CircleEffectItemProps {
-    name: string;
+    label: string;
     value: number;
+    min: number;
+    max: number;
+    onValueChange: (value: number) => void;
     decimal?: boolean;
 }
-export const CircleEffectItem: React.FC<CircleEffectItemProps> = ({ name, value, decimal }) => {
+export const CircleEffectItem: React.FC<CircleEffectItemProps> = ({ label, value, min, max, decimal,onValueChange }) => {
 
-    const handleChange = (value: any) => {
-        var temporalValue = value;
-        if (decimal) { temporalValue /= 100; }
-        setRateValue(temporalValue);
-    };
-    const [rateValue, setRateValue] = React.useState(1);
-    const handleTextChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-        var temporalValue = parseFloat(event.target.value);
-        if (decimal) { temporalValue /= 100; }
-        setRateValue(temporalValue);
-
+    const handleValueChange: React.ChangeEventHandler<HTMLInputElement> = (value:any) => {
+        if (decimal) { 
+            onValueChange(value/50);
+        }
     }
     //<CircleSlider value={rateValue} stepSize="0.1" circleWidth={10} progressWidth={10} knobRadius={5} gradientColorFrom={'#333DE6'} gradientColorTo={'#54C2F7'}onChange={handleChange}/>
     return (
 
         <div className="circleEffectItem">
-            <h5>{name}</h5>
+            <h5>{label}</h5>
             <CircularSlider
                 width={100}
                 progressLineCap="flat"
@@ -41,11 +37,10 @@ export const CircleEffectItem: React.FC<CircleEffectItemProps> = ({ name, value,
                 progressSize={10}
                 trackColor="#465383"
                 trackSize={10}
-                onChange={handleChange}
-            >
-                <EmojiIcon x="9" y="9" width="18px" height="18px" />
+                onChange={handleValueChange}>
+                <EmojiIcon x="-3" y="-3" width="40px" height="40px" />
             </CircularSlider>
-            <span>{rateValue}</span>
+            <span>{value}</span>
         </div >
     );
 

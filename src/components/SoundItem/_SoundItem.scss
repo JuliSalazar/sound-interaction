@@ -1,3 +1,18 @@
-.soundItem{
-   
+.soundItem {
+    display: flex;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    filter: drop-shadow(0px 0px 4.41667px rgba(255, 255, 255, 0.25));
+    border-radius: 2px;
+    padding: 0px 15px;
+    align-items: center;
+    justify-content: space-between;
+    &__name {
+        font-weight: 500;
+        font-size: 1em;
+        margin-right: 10px;
+        text-align: left;
+    }
+    &__button {
+        border: none;
+    }
 }

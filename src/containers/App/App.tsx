@@ -7,6 +7,9 @@ import { getImageSrc } from '../../utils/getImageSrc';
 import { SoundItem } from '../../components/SoundItem/SoundItem';
 import { CircleEffectItem } from '../../components/Sliders/CircleSlider';
 import { RangeSlider } from '../../components/Sliders/RangeSlider';
+import { Checkbox } from '../../components/Sliders/Checkbox';
+import { Visualization } from '../../components/Visualization/Visualization';
+import { YourSoundItem } from '../../components/YourSoundItem/YourSoundItem';
 
 
 const preSounds: SoundItemType[] = [
@@ -16,12 +19,17 @@ const preSounds: SoundItemType[] = [
         soundUrl: getImageSrc('sounds/guitar.wav'),
         vol: 1,
         pan: 0,
+        rate: 0,
         //Delay
         feedback: 0.0,
         time: 0.0,
         mix: 0,
         //Distortion
-        gain: 0,
+        reverbTime: 0,
+        decayRate: 0,
+        dryWet: 0,
+        distortion: false,
+        //SoundFile
         sound: 0,
     },
     {
@@ -30,12 +38,17 @@ const preSounds: SoundItemType[] = [
         soundUrl: getImageSrc('sounds/drum.wav'),
         vol: 1,
         pan: 0,
+        rate: 0,
         //Delay
         feedback: 0.0,
         time: 0,
         mix: 0,
         //Distortion
-        gain: 0,
+        reverbTime: 0,
+        decayRate: 0,
+        dryWet: 0,
+        distortion: false,
+        //SoundFile
         sound: 0,
     },
     {
@@ -44,19 +57,23 @@ const preSounds: SoundItemType[] = [
         soundUrl: getImageSrc('sounds/wolfHowl.wav'),
         vol: 1,
         pan: 0,
+        rate: 0,
         //Delay
         feedback: 0,
         time: 0,
         mix: 0,
         //Distortion
-        gain: 0,
+        reverbTime: 0,
+        decayRate: 0,
+        dryWet: 0,
+        distortion: false,
+        //SoundFile
         sound: 0,
     },
 
 ];
 declare var p5: any;
 export const App = () => {
-
     const ref = React.useRef(null as HTMLDivElement | null);
     const [preSoundsList, setPreSoundsList] = React.useState(preSounds);
     const variablesRef = React.useRef({
@@ -64,48 +81,75 @@ export const App = () => {
         addSound: (id: number) => { },
         changeVolume: (id: number, sound: SoundItemType) => { },
         getHandleChange: (key: keyof SoundItemType, id: number, sound: SoundItemType) => { },
+        saveSound: (id: number) => { },
+        stopSound: (id: number) => { },
     });
+
+    const [usersSounds, setUsersSounds] = React.useState<SoundItemType[]>([]);
+
     React.useEffect(() => {
+
         const app = new p5((sketch: any) => {
 
             let selected: SoundItemType | null | undefined;
             var sounds: SoundItemType[] = [];
+            var savedSounds: SoundItemType[] = [];
 
             sketch.preload = () => {
-                preSounds.forEach(({ name, soundUrl, id, vol, pan, time, mix, gain, feedback }) => {
+                preSounds.forEach(({ name, soundUrl, id, vol, pan, rate, time, mix, reverbTime, decayRate, dryWet, distortion, feedback }) => {
                     sounds.push({
                         id,
                         name,
                         soundUrl,
                         vol,
                         pan,
+                        rate,
                         //Delay
                         feedback,
                         time,
                         mix,
-                        //Distortion
-                        gain,
+                        //Reverb
+                        reverbTime,
+                        decayRate,
+                        dryWet,
+                        distortion,
+
+                        //SoundFile
                         sound: sketch.loadSound(soundUrl),
                     });
                 });
-
             }
             let delay: any;
+            let reverb: any;
+            let distortion: any;
             sketch.setup = () => {
                 sketch.userStartAudio();
                 delay = new p5.Delay();
+                reverb = new p5.Reverb();
+                distortion = new p5.Distortion();
             }
+
             variablesRef.current.playSound = (id: number) => {
                 const sound = sounds.find((s) => s.id === id);
                 sound?.sound.play();
+                const userSound = savedSounds.find((s) => s.id === id);
+                userSound?.sound.play();
             }
             variablesRef.current.addSound = (id: number) => {
                 const soundToAdd = sounds.find((s) => s.id === id);
                 selected = soundToAdd;
             }
+            variablesRef.current.stopSound = (id: number) => {
+                const sound = sounds.find((s) => s.id === id);
+                sound?.sound.stop();
+                const userSound = savedSounds.find((s) => s.id === id);
+                userSound?.sound.stop();
+            }
+
+            let mySound: any;
             variablesRef.current.getHandleChange = (key: keyof SoundItemType, id: number, soundItem: SoundItemType) => {
                 if (selected) {
-                    let mySound = selected.sound;
+                    mySound = selected.sound;
                     switch (key) {
                         case 'vol':
                             mySound.setVolume(soundItem.vol);
@@ -113,24 +157,45 @@ export const App = () => {
                         case 'pan':
                             mySound.pan(soundItem.pan);
                             break;
-                        case 'feedback' :
-                        case 'time' :
-                            case 'mix' :
+                        case 'rate':
+                            mySound.rate(soundItem.rate);
+                            break;
+                        case 'feedback':
+                        case 'time':
+                        case 'mix':
                             delay.process(mySound, soundItem.time, soundItem.feedback, soundItem.mix);
                             break;
-                        case 'gain':
-                            mySound.rate(soundItem.gain);
+                        case 'reverbTime':
+                        case 'decayRate':
+                        case 'dryWet':
+                            reverb.process(mySound, soundItem.reverbTime, soundItem.decayRate);
+                            reverb.drywet(soundItem.dryWet);
                             break;
+                        case 'distortion':
+                            if (soundItem.distortion) {
+                                mySound.setVolume(0.1);
+                                distortion.connect();
+                                distortion.process(mySound, 0.1);
+                            } else {
+                                mySound.setVolume(soundItem.vol);
+                                distortion.disconnect();
+                            }
+                            break;
+
                     }
                 }
-                console.log(soundItem);
+                variablesRef.current.saveSound = (id: number) => {
+                    if (mySound && selected) {
+                        savedSounds.push({
+                            ...selected,
+                            id: 100 + savedSounds.length,
+                            name: "Your Sound",
+                            sound: mySound
+                        });
+                        setUsersSounds(savedSounds);
+                    }
+                }
             }
-            /* variablesRef.current.changeVolume = (id: number, soundItem: SoundItemType) => {
-                sketch.userStartAudio();
-                if (selected) { selected.sound.setVolume(soundItem.vol) }
-
-                console.log("ejecutada", soundItem.vol);
-            } */
         }, ref.current!);
     }, []);
 
@@ -143,7 +208,12 @@ export const App = () => {
     const handleSoundItemAdd = (id: number) => {
         variablesRef.current.addSound(id);
     }
-
+    const handleSaveSound = (id: number) => {
+        variablesRef.current.saveSound(id);
+    }
+    const handleSoundItemStop = (id: number) => {
+        variablesRef.current.stopSound(id);
+    }
     const getHandleChange = (key: keyof SoundItemType, id: number) => {
         return (value: any) => {
             setSound((prev) => ({
@@ -158,7 +228,7 @@ export const App = () => {
     }
 
     const [generalPropsTab, setGeneralPropsTab] = React.useState<'volume' | 'pan'>('volume');
-    const [effectTab, setEffectTab] = React.useState<'delay' | 'reverb'>('delay');
+    const [effectTab, setEffectTab] = React.useState<'delay' | 'reverb' | 'distortion'>('delay');
     return (
 
         <main className="app">
@@ -167,69 +237,63 @@ export const App = () => {
                     return <SideNavBar />
                 }} />
 
-                <GeneralContext.Provider value={{ predeterminateSounds: preSoundsList, onSoundItemClick: handleSoundItemClick, onSoundItemAdd: handleSoundItemAdd }}>
+                <GeneralContext.Provider value={{ predeterminateSounds: preSoundsList, onSoundItemClick: handleSoundItemClick, onSoundItemStop: handleSoundItemStop, onSoundItemAdd: handleSoundItemAdd }}>
                     <Route path="/home" render={() => {
                         return <section className="app__content">
                             <h1 className="app__title">INTERACTION</h1>
-                            <button onClick={() => setGeneralPropsTab("pan")}>Save your sound!</button>
+                            <button className="saveButton" onClick={() => handleSaveSound(sound.id)}>Save your sound!</button>
                             <div style={{ display: 'none' }} ref={ref}></div>
 
                             <section className="app__soundContainer">
-                                {preSoundsList.map(({ name, soundUrl, id }, index) => {
-
-                                    return <SoundItem
-                                        key={index}
-                                        name={name}
-                                        soundUrl={soundUrl}
-                                        id={id}
-                                    />;
-                                })}
+                                <div className="app__preSounds">
+                                    {preSoundsList.map(({ name, soundUrl, id }, index) => {
+                                        return <SoundItem
+                                            key={index}
+                                            name={name}
+                                            soundUrl={soundUrl}
+                                            id={id}
+                                        />;
+                                    })}
+                                </div>
+                                <Visualization />
                             </section>
-                            <button onClick={() => setGeneralPropsTab("volume")}>Volume</button>
-                            <button onClick={() => setGeneralPropsTab("pan")}>Pan</button>
+                            <button className={`btn ${generalPropsTab === 'volume' ? 'btn--selected' : ''}`} onClick={() => setGeneralPropsTab("volume")}>Volume</button>
+                            <button className={`btn ${generalPropsTab === 'pan' ? 'btn--selected' : ''}`} onClick={() => setGeneralPropsTab("pan")}>Pan</button>
                             {generalPropsTab === 'volume' &&
-                                <RangeSlider label={'Volume'}
+                                <RangeSlider variant={'background'} label={''}
                                     max={1}
                                     min={0}
                                     onValueChange={getHandleChange('vol', sound.id)}
-
                                     value={sound.vol}></RangeSlider>
                             }
                             {generalPropsTab === 'pan' &&
-                                <RangeSlider label={'Pan'}
+                                <RangeSlider variant={'background'} label={''}
                                     max={1}
                                     min={-1}
                                     onValueChange={getHandleChange('pan', sound.id)}
-
                                     value={sound.pan}></RangeSlider>
                             }
 
                             <section className="app__contentPanels">
                                 <section className="soundPropsContainer">
+                                    <h3 className="h3--contentPanels">Sound Properties</h3>
                                     <article className="soundPropsContainer__fade"></article>
-                                    {/* <CircleEffectItem name="Playback Rate" value={} decimal={true} />
-                                        <CircleEffectItem name="BPM" value={} />
-                                        <CircleEffectItem name="Pitch Adjust" value={} decimal={true} />
-                                        <CircleEffectItem name="Playback rate:" value={} /> */}
                                     <article className="soundPropsContainer__props">
                                         {/* <CircleEffectItem name="Pitch Adjust" value={sound.gain} decimal={true} /> */}
-                                        <RangeSlider label={'Playback Rate'}
+                                        <CircleEffectItem label="Playback Rate" value={sound.rate} decimal={true} min={0} max={2} onValueChange={getHandleChange('rate', sound.id)} />
+                                        {/* <RangeSlider label={'Playback Rate'}
                                             max={2}
                                             min={0}
-                                            onValueChange={getHandleChange('gain', sound.id)}
-
-                                            value={sound.gain}></RangeSlider>
+                                            onValueChange={getHandleChange('rate', sound.id)}
+                                            value={sound.rate}></RangeSlider> */}
                                     </article>
                                 </section>
                                 <section className="soundEffectsContainer">
-
+                                    <h3 className="h3--contentPanels">Effects</h3>
                                     <article className="soundEffectsContainer__effectsButtons">
-                                        {/* <Link to="/home/delay">Delay</Link>
-                                        <Link to="/home/eq">EQ</Link>
-                                        <Link to="/home/distortion">Distortion</Link> */}
-                                        <button onClick={() => setEffectTab("delay")}>Delay</button>
-                                        <button onClick={() => setEffectTab("reverb")}>Reverb</button>
-
+                                        <button className={`btn ${effectTab === 'delay' ? 'btn--selected' : ''}`} onClick={() => setEffectTab("delay")}>Delay</button>
+                                        <button className={`btn ${effectTab === 'reverb' ? 'btn--selected' : ''}`} onClick={() => setEffectTab("reverb")}>Reverb</button>
+                                        <button className={`btn ${effectTab === 'distortion' ? 'btn--selected' : ''}`} onClick={() => setEffectTab("distortion")}>Distortion</button>
                                     </article>
 
                                     {effectTab === 'delay' && <article className="soundEffectsContainer__effectsProps">
@@ -240,28 +304,51 @@ export const App = () => {
 
                                             value={sound.time}></RangeSlider>
                                         <RangeSlider label={'Feedback'}
-                                            max={1.0}
-                                            min={0.0}
+                                            max={0.9}
+                                            min={0}
                                             onValueChange={getHandleChange('feedback', sound.id)}
 
                                             value={sound.feedback}></RangeSlider>
                                         <RangeSlider label={'Filter Frequency'}
-                                            max={1.0}
-                                            min={0.0}
+                                            max={5000}
+                                            min={100}
                                             onValueChange={getHandleChange('mix', sound.id)}
 
                                             value={sound.mix}></RangeSlider>
                                     </article>
                                     }
 
-                                    <Route path="/home/distortion" render={() =>
-                                        <article className="soundEffectsContainer__effectsProps">
+                                    {effectTab === 'reverb' && <article className="soundEffectsContainer__effectsProps">
+                                        <RangeSlider label={'Reverb Time'}
+                                            max={5}
+                                            min={1}
+                                            onValueChange={getHandleChange('reverbTime', sound.id)}
 
-                                        </article>
-                                    } />
+                                            value={sound.reverbTime}></RangeSlider>
+                                        <RangeSlider label={'Decay Rate'}
+                                            max={5}
+                                            min={1}
+                                            onValueChange={getHandleChange('decayRate', sound.id)}
+
+                                            value={sound.decayRate}></RangeSlider>
+                                        <RangeSlider label={'Dry/Wet'}
+                                            max={1}
+                                            min={0}
+                                            onValueChange={getHandleChange('dryWet', sound.id)}
+
+                                            value={sound.dryWet}></RangeSlider>
+                                    </article>
+                                    }
+                                    {effectTab === 'distortion' && <article className="soundEffectsContainer__effectsProps">
+                                        <Checkbox
+                                            label="Distortion?"
+                                            value={sound.distortion}
+                                            onChange={getHandleChange('distortion', sound.id)}
+                                        />
+
+                                    </article>
+                                    }
                                 </section>
-                                {/* <SoundEffectsContainer gainChange={handleGainChange}
-                                    feedbackChange={handleFeedbackChange} timeChange={handleTimeChange} mixChange={handleMixChange} /> */}
                             </section>
                         </section>
                     }} />
@@ -271,11 +358,26 @@ export const App = () => {
                         <h1 className="app__title">PROFILE</h1>
                     </section>
                 }} />
-                <Route path="/sounds" render={() => {
-                    return <section className="app__content">
-                        <h1 className="app__title">YOUR SOUNDS</h1>
-                    </section>
-                }} />
+                <GeneralContext.Provider value={{ predeterminateSounds: preSoundsList, onSoundItemClick: handleSoundItemClick, onSoundItemStop: handleSoundItemStop, onSoundItemAdd: handleSoundItemAdd }}>
+
+                    <Route path="/sounds" render={() => {
+                        return <section className="app__content">
+                            <h1 className="app__title">YOUR SOUNDS</h1>
+                            <div style={{ display: 'none' }} ref={ref}></div>
+                            <section className="app__soundsContainer">
+                                {usersSounds.map(({ name, soundUrl, id }, index) => {
+                                    return <YourSoundItem
+                                        key={index}
+                                        name={name}
+                                        soundUrl={soundUrl}
+                                        id={id}
+                                    />;
+                                })}
+                            </section>
+                            <Visualization></Visualization>
+                        </section>
+                    }} />
+                </GeneralContext.Provider>
                 <Route path="/fav" render={() => {
                     return <section className="app__content">
                         <h1 className="app__title">FAVORITES</h1>
