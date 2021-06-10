@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/sound-interaction/static/css/main.2dee37a5.chunk.css",
-    "main.js": "/sound-interaction/static/js/main.811a4ccd.chunk.js",
-    "main.js.map": "/sound-interaction/static/js/main.811a4ccd.chunk.js.map",
+    "main.js": "/sound-interaction/static/js/main.eef1a030.chunk.js",
+    "main.js.map": "/sound-interaction/static/js/main.eef1a030.chunk.js.map",
     "runtime-main.js": "/sound-interaction/static/js/runtime-main.050b8542.js",
     "runtime-main.js.map": "/sound-interaction/static/js/runtime-main.050b8542.js.map",
     "static/js/2.02032c53.chunk.js": "/sound-interaction/static/js/2.02032c53.chunk.js",
@@ -16,6 +16,6 @@
     "static/js/runtime-main.050b8542.js",
     "static/js/2.02032c53.chunk.js",
     "static/css/main.2dee37a5.chunk.css",
-    "static/js/main.811a4ccd.chunk.js"
+    "static/js/main.eef1a030.chunk.js"
   ]
 }
