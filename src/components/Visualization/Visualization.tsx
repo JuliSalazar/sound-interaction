@@ -48,8 +48,6 @@ export const Visualization: React.FC<VisualizationProps> = ({selectedSound}) => 
             }
         }, refVisual.current!);
     },[]);
-    return <div className="visualization" ref={refVisual}>
-
-    </div>;
+    return <div className="visualization" ref={refVisual}></div>;
 
 }

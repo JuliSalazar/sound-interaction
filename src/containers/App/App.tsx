@@ -383,6 +383,7 @@ export const App = () => {
                     <Route path="/sounds" render={() => {
                         return <section className="app__content">
                             <h1 className="app__title">YOUR SOUNDS</h1>
+                            <div style={{ display: 'none' }} ref={ref}></div>
                             <section className="app__soundsContainer">
                                 {usersSounds.map(({ name, soundUrl, id }, index) => {
                                     return <YourSoundItem
